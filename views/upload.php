@@ -1,3 +1,7 @@
+<?php 
+  needLogin();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,18 +23,18 @@
 
     <div style="max-width: 650px; margin: auto;">
       <h1 class="page-header">Image Upload Form</h1>
-      <p class="lead">Select a PNG or JPEG image, having maximum size <span id="max-size"></span> KB.</p>
+      <p class="lead">Select image, having maximum size <span id="max-size">3</span> MB.</p>
 
-      <form id="upload-image-form" action="" method="post" enctype="multipart/form-data">
-        <div id="image-preview-div" style="display: none">
+      <form id="upload-image-form" action="upload" method="post" enctype="multipart/form-data">
+        <div id="image-preview-div" style="display: none;">
           <label for="exampleInputFile">Selected image:</label>
           <br>
           <img id="preview-img" src="noimage">
         </div>
         <div class="form-group">
-          <input type="file" name="file" id="file" required>
+          <input type="file" name="image" id="file" required>
         </div>
-        <button class="btn btn-lg btn-primary" id="upload-button" type="submit">Upload image</button>
+        <button class="btn btn-lg btn-primary" id="upload-button" type="submit" name='uploadImage'>Upload image</button>
       </form>
 
       <br>

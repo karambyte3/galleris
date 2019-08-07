@@ -1,6 +1,6 @@
-<?php 
-    $title = "Gallery | Home";
-    include("views/partials/head.php");
+<?php $title = "Gallery | Home"; 
+    // include_once 'views/partials/head.php';
+
 ?>
 
 <div class="container-fluid gallery">

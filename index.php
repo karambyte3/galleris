@@ -1,11 +1,17 @@
 <?php
+    session_start();
+    
+    include_once './config.php';
+    include_once './generalHelper.php';
+    include_once './controllers/authenticateUser.php';
+    include_once 'views/partials/head.php';
+    // authenticateUser();
 
+include_once './controllers/accountControllers.php';
 
-
-include_once './config.php';
-include_once './generalHelper.php';
-include_once './controllers/accountControllers.php';   
-
+if ($_SESSION['username']) {
+    echo '<h3>Welcome '.$_SESSION['username']. '</h3>';
+}
 
 # Route function
 function route($routeUrls) {
@@ -20,6 +26,7 @@ function route($routeUrls) {
         include_once  './views/home.php';
         return;
     }
+
     # въртим цикъл за всеки един от линковете
     foreach($routeUrls as $url) {
         # проверяваме дали линка който е достъпил портеб. го има в нашите зададени от масива линкове
@@ -47,7 +54,7 @@ function route($routeUrls) {
 }
 
 function home() {
-
+    
 }
 
 
@@ -58,6 +65,7 @@ route(
         'login',
         'register',
         'profile',
+        'logout'
         )
 );
 

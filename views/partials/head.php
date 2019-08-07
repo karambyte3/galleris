@@ -20,14 +20,16 @@
 <body>
 
 <nav id="navbar">
-        <a href="/" id="title">
+        <a href="<?php echo SITE_URL; ?>" id="title">
             <h3> Gallery <sub>by Stefan Kalenderov</sub></h3>
         </a>
         <ul id="menu">
-            <li><a href="#">Home</a></li>
+            <li><a href="<?php echo SITE_URL; ?>">Home</a></li>
             <li><a href="#">Photos</a></li>
             <li><a href="#">About me</a></li>
             <li><a href="#">Contact</a></li>
-            <a href="profile.html" class="btn btn-outline-dark d-inline float-right">My profile</a>
+            <div class="form-inline float-right">
+            <?php checkNavButtons(); ?>
+            </div>
         </ul>
     </nav>

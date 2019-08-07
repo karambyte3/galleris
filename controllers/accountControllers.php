@@ -1,11 +1,16 @@
 <?php
 
-function upload_image()
-{
+function upload_image(){
+
 }
 
+// When /login route is accessed
 function login() {
+    isLogged();
+
     if (isset($_POST['loginUser'])) {
+        $conn = $GLOBALS['conn'];
+
         $username = test_input($_POST['username']);
         $password = test_input($_POST['password']);
         // if (preg_match('/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/', $username) == false) { array_push($errors, "Invalid username"); }
@@ -21,14 +26,15 @@ function login() {
         if (count($errors) == 0) {
             $password = md5($password);
             $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-            $results = mysqli_query($query);
+            $results = mysqli_query($conn, $query);
             if (mysqli_num_rows($results) == 1) {
-                echo "ok";
-                session_start();
-              $_SESSION['username'] = $username;
-              $_SESSION['success'] = "You are now logged in";
-              echo $_SESSION['username'];
-              redirect('profile');
+
+            session_start();
+                $_SESSION['username'] = $username;
+                $_SESSION['authenticated'] = true;
+                redirect('profile');
+                exit();
+                // mysqli_close($conn);
               
             }else {
                 array_push($errors, "Wrong username/password combination");
@@ -38,8 +44,10 @@ function login() {
 
 }
 
-
+// When /register route is acessed
 function register() {
+    isLogged();
+
     if (isset($_POST['registerUser'])) {
         $conn = $GLOBALS['conn'];
 
@@ -90,36 +98,21 @@ function register() {
     array_push($errors, "Email already exists"); 	
     }
 
-        // $user_check_query = "SELECT * FROM users WHERE username=`$username` OR email=`$email` LIMIT 1";
-        // $result = mysqli_query($conn, $user_check_query);
-        // $user = mysqli_fetch_assoc($result);
-        // print('<pre>' . print_r($user_check_query) . '</pre>');
-        
-        // if ($user) {
-        //     // if user exists
-        //     if ($user['username'] == $username) {
-        //         array_push($errors, "Username already exists");
-        //     }
-
-        //     if ($user['email'] == $email) {
-        //         array_push($errors, "email already exists");
-        //     }
-        // }
-
         // Finally, register user if there are no errors in the form
-        // if (count($errors) == 0) {
-        //     $password = md5($password);//encrypt the password before saving in the database
-        //     $query = "INSERT INTO users(username, email, password) 
-        //                 VALUES('$username', '$email', '$password')";
+        if (count($errors) == 0) {
+            $password = md5($password);//encrypt the password before saving in the database
+            $query = "INSERT INTO users(username, email, password) 
+                        VALUES('$username', '$email', '$password')";
 
-        //     if(mysqli_query($conn, $query)) {
-        //         session_start();
-        //         $_SESSION['username'] = $username;
-        //         $_SESSION['success'] = "You are now logged in";
-        //         echo 'Welcome ' .$_SESSION['username'];
-        //         redirect('profile');
-        //     }
-        // }
+            if(mysqli_query($conn, $query)) {
+                session_start();
+                $_SESSION['username'] = $username;
+                $_SESSION['authenticated'] = true;
+                echo 'Welcome ' .$_SESSION['username'];
+                redirect('profile');
+                mysqli_close($conn);
+            }
+        }
     }
 
     return array(
